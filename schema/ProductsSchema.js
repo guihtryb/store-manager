@@ -27,7 +27,7 @@ const quantityIncorrect = (value, min) => value < min;
 const validProducts = async (name, quantity) => [
   { invalid: valueWasNotPassed(name), code: 400, message: errors.nameIsRequired },
   { invalid: valueTypeIncorrect(name, ''), code: 422, message: errors.nameMustBeAString },
-  { invalid: nameHasNotTheCorrectLength(name), code: 422, message: errors.nameIsToShort },
+  { invalid: nameHasNotTheCorrectLength(name, 5), code: 422, message: errors.nameIsToShort },
   { invalid: await nameIsNotUnique(name), code: 409, message: errors.nameAlrealdyExists },
   { invalid: valueWasNotPassed(quantity), code: 400, message: errors.quantityIsRequired },
   {
