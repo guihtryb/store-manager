@@ -13,9 +13,9 @@ const valueWasNotPassed = (value) => (value === undefined || value === null);
 const valueTypeIncorrect = (value, type) => (typeof value !== typeof type);
 const nameHasNotTheCorrectLength = (name = '', min) => (name.length < min);
 
-const nameIsNotUnique = async (name) => {
+const nameIsNotUnique = async (name, id) => {
   const products = await getAll();
-  const alreadyExists = products.find((product) => product.name === name);
+  const alreadyExists = products.find((product) => product.name === name && product.id !== id);
 
   if (alreadyExists) return true;
 
@@ -24,11 +24,11 @@ const nameIsNotUnique = async (name) => {
 
 const quantityIncorrect = (value, min) => value < min;
 
-const validProducts = async (name, quantity) => [
+const validProducts = async (name, quantity, id) => [
   { invalid: valueWasNotPassed(name), code: 400, message: errors.nameIsRequired },
   { invalid: valueTypeIncorrect(name, ''), code: 422, message: errors.nameMustBeAString },
   { invalid: nameHasNotTheCorrectLength(name, 5), code: 422, message: errors.nameIsToShort },
-  { invalid: await nameIsNotUnique(name), code: 409, message: errors.nameAlrealdyExists },
+  { invalid: await nameIsNotUnique(name, id), code: 409, message: errors.nameAlrealdyExists },
   { invalid: valueWasNotPassed(quantity), code: 400, message: errors.quantityIsRequired },
   {
     invalid: valueTypeIncorrect(quantity, 1) || quantityIncorrect(quantity, 1),
