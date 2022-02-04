@@ -1,12 +1,6 @@
 const ProductsModel = require('../models/ProductsModel');
 const { validProducts } = require('../schema/ProductsSchema');
 
-// const getAll = async () => {
-//   const products = await ProductsModel.getAll();
-
-//   return products;
-// };
-
 const createProduct = async (name, quantity) => {
   const validations = await validProducts(name, quantity);
   const invalid = validations.find((item) => item.invalid);
@@ -18,7 +12,16 @@ const createProduct = async (name, quantity) => {
   return product;
 };
 
+const getProductById = async (id) => {
+  const products = await ProductsModel.getAll();
+  const productExist = products.find((product) => product.id === id);
+
+  if (!productExist) return false;
+
+  return productExist;
+};
+
 module.exports = {
-  // getAll,
   createProduct,
+  getProductById,
 };
