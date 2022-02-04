@@ -9,17 +9,9 @@ const getAll = async (_req, res) => {
 const createProduct = async (req, res) => {
   const { name, quantity } = req.body;
 
-  const product = await ProductsService.createProduct(name, quantity);
+  const { code, message } = await ProductsService.createProduct(name, quantity);
 
-  if (product.code) return res.status(product.code).json({ message: product.message });
-
-  res.status(201).json(
-    {
-      id: product.insertId,
-      name,
-      quantity,
-    },
-  );
+  return res.status(code).json(message);
 };
 
 const getProductById = async (req, res) => {
@@ -27,15 +19,9 @@ const getProductById = async (req, res) => {
 
   const productId = parseInt(id, 10);
 
-  const product = await ProductsService.getProductById(productId);
+  const { code, message } = await ProductsService.getProductById(productId);
 
-  if (!product) {
-    return res.status(404).json({
-      message: 'Product not found',
-    });
-  }
-
-  return res.status(200).json(product);
+  return res.status(code).json(message);
 };
 
 module.exports = {

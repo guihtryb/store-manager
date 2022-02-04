@@ -3,7 +3,7 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
 
-const ProductController = require('./controllers/ProductsController');
+const productsRouter = require('./routers/productsRouter');
 
 const app = express();
 
@@ -14,11 +14,7 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.post('/products', ProductController.createProduct);
-
-app.get('/products', ProductController.getAll);
-
-app.get('/products/:id', ProductController.getProductById);
+app.use('/products', productsRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);
