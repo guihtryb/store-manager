@@ -3,7 +3,9 @@ const { validProducts } = require('../schema/ProductsSchema');
 
 const validProduct = async (name, quantity, id) => {
   const validations = await validProducts(name, quantity, id);
+
   const invalidItem = validations.find((item) => item.invalid);
+
   return invalidItem;
 };
 
@@ -14,12 +16,15 @@ const answer = (code, message) => ({
 
 const createProduct = async (name, quantity) => {
   const products = await ProductsModel.getAll();
+
   const defaultId = products.length - 1;
 
   const invalidItem = await validProduct(name, quantity, defaultId);
+
   if (invalidItem) return answer(invalidItem.code, { message: invalidItem.message });
 
   const product = await ProductsModel.createProduct(name, quantity);
+
   const productAnswer = {
       id: product.insertId,
       name,
@@ -31,6 +36,7 @@ const createProduct = async (name, quantity) => {
 
 const getProductById = async (id) => {
   const products = await ProductsModel.getAll();
+
   const productExist = products.find((product) => product.id === id);
 
   if (!productExist) return answer(404, { message: 'Product not found' });
@@ -58,8 +64,19 @@ const updateProduct = async (name, quantity, id) => {
   return answer(200, productAnswer);
 };
 
+const deleteProduct = async (id) => {
+  const productSearched = await getProductById(id);
+
+  if (productSearched.code === 404) return productSearched;
+
+  await ProductsModel.deleteProduct(id);
+
+  return answer(200, productSearched.message);
+};
+
 module.exports = {
   createProduct,
   getProductById,
   updateProduct,
+  deleteProduct,
 };
