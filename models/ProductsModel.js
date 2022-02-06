@@ -1,7 +1,5 @@
 const connection = require('./connection');
 
-// const serialize = (data) => ({ data });
-
 const getAll = async () => {
   const query = 'SELECT * FROM StoreManager.products';
 
