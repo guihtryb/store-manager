@@ -2,27 +2,31 @@ const connection = require('./connection');
 
 // // const serialize = (data) => ({ data });
 
-// const getAll = async () => {
-//   const query = 'SELECT * FROM StoreManager.products';
+const getAll = async () => {
+  const query = 'SELECT * FROM StoreManager.sales';
 
-//   const [products] = await connection.execute(query);
+  const [sales] = await connection.execute(query);
 
-//   return products;
-// };
-
-const registerSaleDate = async () => {
-  const saleDateQuery = 'INSERT INTO StoreManager.sales VALUES ()';
-
-  const [saleDate] = await connection.execute(saleDateQuery);
-
-  return saleDate;
+  return sales;
 };
 
-const createSaleProduct = async (saleId, productId, quantity) => {
+// const registerSaleDate = async () => {
+//   const saleDateQuery = 'INSERT INTO StoreManager.sales VALUES ()';
+
+//   const [saleDate] = await connection.execute(saleDateQuery);
+
+//   return saleDate;
+// };
+
+const createSaleProducts = async (productId, quantity) => {
+  const saleDateQuery = 'INSERT INTO StoreManager.sales VALUES ()';
+
+  const [{ insertId }] = await connection.execute(saleDateQuery);
+
   const [saleProductQuantity] = await connection
     .execute(
       'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?,?,?)',
-      [saleId, productId, quantity],
+      [insertId, productId, quantity],
     );
 
   return saleProductQuantity;
@@ -44,9 +48,9 @@ const createSaleProduct = async (saleId, productId, quantity) => {
 // };
 
 module.exports = {
-//   getAll,
-  registerSaleDate,
-  createSaleProduct,
+  getAll,
+  // registerSaleDate,
+  createSaleProducts,
 //   updateProduct,
 //   deleteProduct,
 };

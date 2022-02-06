@@ -14,11 +14,11 @@ const answer = (code, message) => ({
   message,
 });
 
-const registerSaleDate = async () => {
-  const saleDate = await SalesModel.registerSaleDate();
+// const registerSaleDate = async () => {
+//   const saleDate = await SalesModel.registerSaleDate();
 
-  return ({ saleId: saleDate.insertId });
-};
+//   return ({ saleId: saleDate.insertId });
+// };
 
 const createSaleProducts = async (productInfos) => {
   const [invalidItem] = productInfos
@@ -26,14 +26,15 @@ const createSaleProducts = async (productInfos) => {
   
   if (invalidItem) return answer(invalidItem.code, { message: invalidItem.message });
 
-  const { saleId } = await registerSaleDate();
+  // const { saleId } = await registerSaleDate();
+  const sales = await SalesModel.getAll();
   
   productInfos
     .map(async ({ product_id, quantity }) => SalesModel
-    .createSaleProduct(saleId, product_id, quantity));
+    .createSaleProducts(product_id, quantity));
   
     const saleProductAnswer = {
-    id: saleId,
+    id: sales.length + 1,
     itemsSold: productInfos,
   };
 
@@ -75,7 +76,7 @@ const createSaleProducts = async (productInfos) => {
 // };
 
 module.exports = {
-  registerSaleDate,
+  // registerSaleDate,
   createSaleProducts,
 //   createProduct,
 //   getProductById,
