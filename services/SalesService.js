@@ -20,23 +20,19 @@ const registerSaleDate = async () => {
   return ({ saleId: saleDate.insertId });
 };
 
-const createSaleProduct = async (saleId, productId, quantity) => {
-  const invalidItem = validSale(productId, quantity);
-
-  if (invalidItem) return answer(invalidItem.code, ({ message: invalidItem.message }));
-
-  await SalesModel.createSaleProduct(saleId, productId, quantity);
-};
-
 const createSaleProducts = async (productInfos) => {
+  const [invalidItem] = productInfos
+  .map(({ product_id, quantity }) => validSale(product_id, quantity));
+  
+  if (invalidItem) return answer(invalidItem.code, { message: invalidItem.message });
+
   const { saleId } = await registerSaleDate();
   
-  const [errorCreatingProduct] = productInfos
-    .map(async ({ product_id, quantity }) => createSaleProduct(saleId, product_id, quantity));
-
-  if (await errorCreatingProduct) return errorCreatingProduct;
-
-  const saleProductAnswer = {
+  productInfos
+    .map(async ({ product_id, quantity }) => SalesModel
+    .createSaleProduct(saleId, product_id, quantity));
+  
+    const saleProductAnswer = {
     id: saleId,
     itemsSold: productInfos,
   };
@@ -80,7 +76,6 @@ const createSaleProducts = async (productInfos) => {
 
 module.exports = {
   registerSaleDate,
-  createSaleProduct,
   createSaleProducts,
 //   createProduct,
 //   getProductById,
