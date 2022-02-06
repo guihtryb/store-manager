@@ -29,14 +29,12 @@ const createSaleProduct = async (saleId, productId, quantity) => {
 };
 
 const createSaleProducts = async (productInfos) => {
-  const saleDate = await registerSaleDate();
+  const { saleId } = await registerSaleDate();
   
-  const { saleId } = saleDate;
-
-  const errorCreatingProduct = productInfos
+  const [errorCreatingProduct] = productInfos
     .map(async ({ product_id, quantity }) => createSaleProduct(saleId, product_id, quantity));
 
-  if (await errorCreatingProduct[0]) return errorCreatingProduct[0];
+  if (await errorCreatingProduct) return errorCreatingProduct;
 
   const saleProductAnswer = {
     id: saleId,
