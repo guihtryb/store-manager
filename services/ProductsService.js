@@ -25,13 +25,7 @@ const createProduct = async (name, quantity) => {
 
   const product = await ProductsModel.createProduct(name, quantity);
 
-  const productAnswer = {
-      id: product.insertId,
-      name,
-      quantity,
-  };
-
-  return answer(201, productAnswer);
+  return answer(201, ({ id: product.insertId, name, quantity }));
 };
 
 const getProductById = async (id) => {
@@ -55,13 +49,7 @@ const updateProduct = async (name, quantity, id) => {
 
   await ProductsModel.updateProduct(name, quantity, id);
 
-  const productAnswer = {
-    id,
-    name,
-    quantity,
-  };
-
-  return answer(200, productAnswer);
+  return answer(200, ({ id, name, quantity }));
 };
 
 const deleteProduct = async (id) => {

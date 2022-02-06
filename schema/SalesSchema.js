@@ -9,9 +9,9 @@ const valueTypeIncorrect = (value, type) => (typeof value !== typeof type);
 
 const quantityIncorrect = (value, min) => value < min;
 
-const validSales = async (productId, quantity) => [
+const validSales = (productId, quantity) => [
   { invalid: valueWasNotPassed(productId), code: 400, message: errors.productIdIsRequired },
-  { invalid: valueWasNotPassed(quantity), code: 400, message: errors.productIdIsRequired },
+  { invalid: valueWasNotPassed(quantity), code: 400, message: errors.quantityIsRequired },
   {
     invalid: valueTypeIncorrect(quantity, 1) || quantityIncorrect(quantity, 1),
     code: 422,

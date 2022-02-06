@@ -10,10 +10,10 @@ const connection = require('./connection');
 //   return products;
 // };
 
-const registerSaleDate = async (date) => {
-  const saleDateQuery = 'INSERT INTO StoreManager.sales (date) VALUES (?)';
+const registerSaleDate = async () => {
+  const saleDateQuery = 'INSERT INTO StoreManager.sales VALUES ()';
 
-  const [saleDate] = await connection.execute(saleDateQuery, [date]);
+  const [saleDate] = await connection.execute(saleDateQuery);
 
   return saleDate;
 };
