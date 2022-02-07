@@ -1,29 +1,50 @@
 const connection = require('./connection');
 
-// const getAll = async () => {
-//   const query = 'SELECT * FROM StoreManager.products';
+const getAllSales = async () => {
+  const salesProductsQuery = `
+  SELECT s.id AS saleId, s.date, sp.product_id, sp.quantity
+  FROM
+    StoreManager.sales_products AS sp
+  INNER JOIN
+  StoreManager.sales AS s
+  ON
+  sp.sale_id = s.id;`;
 
-//   const [products] = await connection.execute(query);
+  const [salesProducts] = await connection.execute(salesProductsQuery);
 
-//   return products;
-// };
-
-const registerSaleDate = async () => {
-  const saleDateQuery = 'INSERT INTO StoreManager.sales () VALUES ()';
-
-  const [saleDate] = await connection.execute(saleDateQuery);
-
-  return saleDate;
+  return salesProducts;
 };
 
-const createSaleProducts = async (saleId, productId, quantity) => {
-  const [saleProductQuantity] = await connection
-    .execute(
-      'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?,?,?)',
-      [saleId, productId, quantity],
-    );
+const getSaleById = async (id) => {
+  const salesProductsQuery = `
+  SELECT s.date, sp.product_id, sp.quantity
+  FROM
+    StoreManager.sales_products AS sp
+  INNER JOIN
+  StoreManager.sales AS s
+  ON
+  sp.sale_id = s.id
+  WHERE s.id = ?;`;
 
-  return saleProductQuantity;
+  const [salesProducts] = await connection.execute(salesProductsQuery, [id]);
+
+  return salesProducts;
+};
+
+const createSaleProducts = async (saleProducts) => {
+  const saleDateQuery = 'INSERT INTO StoreManager.sales () VALUES ()';
+
+  const [{ insertId }] = await connection.execute(saleDateQuery);
+
+  const sales = saleProducts.map(async ({ product_id: productId, quantity }) => connection
+  .execute(
+    'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?,?,?)',
+    [insertId, productId, quantity],
+  ));
+
+  await Promise.all(sales);
+
+  return insertId;
 };
 
 // const updateProduct = async (name, quantity, id) => {
@@ -43,8 +64,8 @@ const createSaleProducts = async (saleId, productId, quantity) => {
 // };
 
 module.exports = {
-//   getAll,
-  registerSaleDate,
+  getAllSales,
+  getSaleById,
   createSaleProducts,
 //   updateProduct,
 //   deleteProduct,

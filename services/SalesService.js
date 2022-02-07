@@ -14,30 +14,32 @@ const answer = (code, message) => ({
   message,
 });
 
-const registerSaleDate = async () => {
-  const { insertId } = await SalesModel.registerSaleDate();
-
-  return ({ insertId });
-};
-
 const createSaleProducts = async (productInfos) => {
   const [invalidItem] = productInfos
   .map(({ product_id, quantity }) => validSale(product_id, quantity));
   
   if (invalidItem) return answer(invalidItem.code, { message: invalidItem.message });
 
-  const { insertId } = await registerSaleDate();
-  
-  productInfos
-    .map(async ({ product_id, quantity }) => SalesModel
-    .createSaleProducts(insertId, product_id, quantity));
-  
+  const insertId = await SalesModel.createSaleProducts(productInfos);
+
     const saleProductAnswer = {
     id: insertId,
     itemsSold: productInfos,
   };
 
   return answer(201, saleProductAnswer);
+};
+
+const getSaleById = async (id) => {
+  const sales = await SalesModel.getAllSales();
+
+  const saleExist = sales.filter((sale) => sale.saleId === id);
+
+  if (!saleExist) return answer(404, { message: 'Sale not found' });
+
+  const saleById = await SalesModel.getSaleById(id);
+
+  return answer(200, saleById);
 };
 
 // const getProductById = async (id) => {
@@ -75,10 +77,9 @@ const createSaleProducts = async (productInfos) => {
 // };
 
 module.exports = {
-  // registerSaleDate,
   createSaleProducts,
+  getSaleById,
 //   createProduct,
-//   getProductById,
 //   updateProduct,
 //   deleteProduct,
 };
