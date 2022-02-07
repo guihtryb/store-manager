@@ -42,29 +42,24 @@ const getSaleById = async (id) => {
   return answer(200, saleById);
 };
 
-// const getProductById = async (id) => {
-//   const products = await SalesModel.getAll();
+const updateSale = async (newInfos, saleId) => {
+  const invalidItem = validSale(newInfos.product_id, newInfos.quantity);
 
-//   const productExist = products.find((product) => product.id === id);
+  if (invalidItem) return answer(invalidItem.code, { message: invalidItem.message });
 
-//   if (!productExist) return answer(404, { message: 'Product not found' });
+  const saleSearched = await getSaleById(saleId);
 
-//   return answer(200, productExist);
-// };
+  if (saleSearched.code === 404) return saleSearched;
 
-// const updateProduct = async (name, quantity, id) => {
-//   const invalidItem = await validProduct(name, quantity, id);
+  await SalesModel.updateSale(newInfos.quantity, saleId, newInfos.product_id);
 
-//   if (invalidItem) return answer(invalidItem.code, { message: invalidItem.message });
+  const updatedSaleAnswer = {
+    saleId,
+    itemUpdated: [newInfos],
+  };
 
-//   const productSearched = await getProductById(id);
-
-//   if (productSearched.code === 404) return productSearched;
-
-//   await SalesModel.updateProduct(name, quantity, id);
-
-//   return answer(200, ({ id, name, quantity }));
-// };
+  return answer(200, updatedSaleAnswer);
+};
 
 // const deleteProduct = async (id) => {
 //   const productSearched = await getProductById(id);
@@ -79,7 +74,6 @@ const getSaleById = async (id) => {
 module.exports = {
   createSale,
   getSaleById,
-//   createProduct,
-//   updateProduct,
+  updateSale,
 //   deleteProduct,
 };

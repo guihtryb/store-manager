@@ -47,12 +47,11 @@ const createSale = async (saleProducts) => {
   return insertId;
 };
 
-const updateSale = async (productId, quantity, id) => {
-  const query = 'UPDATE StoreManager.sales_products SET product_id = ?, quantity = ? WHERE id = ?';
-
-  const [sale] = await connection.execute(query, [productId, quantity, id]);
-
-  return sale;
+const updateSale = async (quantity, saleId, productIdToPut) => {
+  const query = `UPDATE StoreManager.sales_products SET quantity = ?
+  WHERE sale_id = ? AND product_id = ?;`;
+  console.log(saleId, productIdToPut, quantity);
+  await connection.execute(query, [quantity, saleId, productIdToPut]);
 };
 
 // const deleteProduct = async (id) => {
