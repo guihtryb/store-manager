@@ -6,9 +6,9 @@ const router = express.Router();
 
 router.post('/', SalesController.createSaleProducts);
 
-// router.get('/', ProductController.getAll);
+router.get('/', SalesController.getAllSales);
 
-// router.get('/:id', ProductController.getProductById);
+router.get('/:id', SalesController.getSaleById);
 
 // router.put('/:id', ProductController.updateProduct);
 
