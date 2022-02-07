@@ -14,13 +14,13 @@ const answer = (code, message) => ({
   message,
 });
 
-const createSaleProducts = async (productInfos) => {
+const createSale = async (productInfos) => {
   const [invalidItem] = productInfos
   .map(({ product_id, quantity }) => validSale(product_id, quantity));
   
   if (invalidItem) return answer(invalidItem.code, { message: invalidItem.message });
 
-  const insertId = await SalesModel.createSaleProducts(productInfos);
+  const insertId = await SalesModel.createSale(productInfos);
 
     const saleProductAnswer = {
     id: insertId,
@@ -35,7 +35,7 @@ const getSaleById = async (id) => {
 
   const saleExist = sales.filter((sale) => sale.saleId === id);
 
-  if (!saleExist) return answer(404, { message: 'Sale not found' });
+  if (!saleExist.length) return answer(404, { message: 'Sale not found' });
 
   const saleById = await SalesModel.getSaleById(id);
 
@@ -77,7 +77,7 @@ const getSaleById = async (id) => {
 // };
 
 module.exports = {
-  createSaleProducts,
+  createSale,
   getSaleById,
 //   createProduct,
 //   updateProduct,

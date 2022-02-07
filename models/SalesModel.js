@@ -31,7 +31,7 @@ const getSaleById = async (id) => {
   return salesProducts;
 };
 
-const createSaleProducts = async (saleProducts) => {
+const createSale = async (saleProducts) => {
   const saleDateQuery = 'INSERT INTO StoreManager.sales () VALUES ()';
 
   const [{ insertId }] = await connection.execute(saleDateQuery);
@@ -47,13 +47,13 @@ const createSaleProducts = async (saleProducts) => {
   return insertId;
 };
 
-// const updateProduct = async (name, quantity, id) => {
-//   const query = 'UPDATE StoreManager.products SET name = ?, quantity = ? WHERE id = ?';
+const updateSale = async (productId, quantity, id) => {
+  const query = 'UPDATE StoreManager.sales_products SET product_id = ?, quantity = ? WHERE id = ?';
 
-//   const [product] = await connection.execute(query, [name, quantity, id]);
+  const [sale] = await connection.execute(query, [productId, quantity, id]);
 
-//   return product;
-// };
+  return sale;
+};
 
 // const deleteProduct = async (id) => {
 //   const query = 'DELETE FROM StoreManager.products WHERE id = ?';
@@ -66,7 +66,7 @@ const createSaleProducts = async (saleProducts) => {
 module.exports = {
   getAllSales,
   getSaleById,
-  createSaleProducts,
-//   updateProduct,
+  createSale,
+  updateSale,
 //   deleteProduct,
 };

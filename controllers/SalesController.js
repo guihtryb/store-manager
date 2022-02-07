@@ -6,8 +6,8 @@ const getAllSales = async (_req, res) => {
   res.status(200).json(sales);
 };
 
-const createSaleProducts = async (req, res) => {
-  const { code, message } = await SalesService.createSaleProducts(req.body);
+const createSale = async (req, res) => {
+  const { code, message } = await SalesService.createSale(req.body);
 
   return res.status(code).json(message);
 };
@@ -46,7 +46,7 @@ const getSaleById = async (req, res) => {
 module.exports = {
   getAllSales,
   getSaleById,
-  createSaleProducts,
+  createSale,
 //   createProduct,
 //   updateProduct,
 //   deleteProduct,
