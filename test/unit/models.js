@@ -4,43 +4,38 @@ const { expect } = require('chai');
 const ProductsModel = require('../../models/ProductsModel');
 const connection = require('../../models/connection');
 
-const payloadProduct = {
-  name: "productA",
-  quantity: 100,
-};
-
 const products = [
   {
     id: 1,
-    name: "productA",
+    name: "ProductA",
     quantity: 100,  
   },
   {
     id: 2,
-    name: "productB",
+    name: "ProductB",
     quantity: 100,  
   },
   {
     id: 3,
-    name: "productC",
+    name: "ProductC",
     quantity: 100,  
   },
   {
     id: 4,
-    name: "productD",
+    name: "ProductD",
     quantity: 100,  
   },
 ];
 
 const productUpdated = {
-  name: 'productA',
-  quantity: 100,
-  id: 1,
-};
+ id: 4,
+ name: "ProductF",
+ quantity: 200, 
+}
 
-describe('Products', () => {
+describe('Products Model >', () => {
   describe('1. Insert a new product on the database', () => {
-    describe('When it`s successfully insert', () => {
+    describe('When it`s successfully inserted', () => {
       before(async () => {
         sinon.stub(connection, 'execute').resolves([{ insertId: 1 }]);
       });
@@ -49,13 +44,13 @@ describe('Products', () => {
       });
 
       it('returns an object', async () => {
-        const response = await ProductsModel.createProduct(payloadProduct.name, payloadProduct.quantity);
+        const response = await ProductsModel.createProduct("productA", 100);
         
         expect(response).to.be.an('object');
       });
 
       it('returns an object with the correct insertId', async () => {
-        const responseObject = await ProductsModel.createProduct(payloadProduct.name, payloadProduct.quantity);
+        const responseObject = await ProductsModel.createProduct("productB", 100);
 
         expect(responseObject).to.have.a.property("insertId");
         expect(responseObject.insertId).to.be.equals(1);
