@@ -14,7 +14,7 @@ const valueTypeIncorrect = (value, type) => (typeof value !== typeof type);
 const nameHasNotTheCorrectLength = (name = '', min) => (name.length < min);
 
 const nameIsNotUnique = async (name, id) => {
-  const products = await getAll();
+  const [products] = await getAll();
   const alreadyExists = products.find((product) => product.name === name && product.id !== id);
 
   if (alreadyExists) return true;

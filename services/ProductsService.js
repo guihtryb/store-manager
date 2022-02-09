@@ -29,7 +29,7 @@ const createProduct = async (name, quantity) => {
 };
 
 const getProductById = async (id) => {
-  const products = await ProductsModel.getAll();
+  const [products] = await ProductsModel.getAll();
 
   const productExist = products.find((product) => product.id === id);
 
