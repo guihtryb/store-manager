@@ -63,7 +63,7 @@ describe('Products Service', () => {
     describe('when it`s a invalid product', () => {
       const response = {};
       const request = {};
-      beforeEach(() => {
+      before(() => {
         request.body = {};
 
         response.status = sinon.stub()
@@ -71,7 +71,7 @@ describe('Products Service', () => {
         response.json = sinon.stub().returns({});
         sinon.stub(ProductsService, 'createProduct').resolves(invalidItem);
       });
-      afterEach(() => {
+      after(() => {
         ProductsService.createProduct.restore();
       });
       it('returns an object', async () => {
@@ -89,7 +89,7 @@ describe('Products Service', () => {
     describe('when it`s a valid product', () => {
       const request = {};
       const response = {};
-      beforeEach(() => {
+      before(() => {
         request.body = validRequest;
 
         response.status = sinon.stub().returns(response);
@@ -97,7 +97,7 @@ describe('Products Service', () => {
 
         sinon.stub(ProductsService, 'createProduct').resolves(insertProductResponse);
       });
-      afterEach( () => {
+      after( () => {
         ProductsService.createProduct.restore();
       });
       it('returns an object', async () => {
@@ -118,7 +118,7 @@ describe('Products Service', () => {
       const response = {};
       const request = {};
 
-      beforeEach(() => {
+      before(() => {
         request.params = { id: "20" };
 
         response.status = sinon.stub().returns(response);
@@ -126,7 +126,7 @@ describe('Products Service', () => {
 
         sinon.stub(ProductsService, 'getProductById').resolves(notFound);
       });
-      afterEach(() => {
+      after(() => {
         ProductsService.getProductById.restore();
       });
       it('returns an object', async () => {
@@ -143,7 +143,7 @@ describe('Products Service', () => {
     describe('when it`s a valid id', () => {
       const request = {};
       const response = {};
-      beforeEach(() => {
+      before(() => {
         request.params = { id: "2" }
 
         response.status = sinon.stub().returns(response);
@@ -151,7 +151,7 @@ describe('Products Service', () => {
 
          sinon.stub(ProductsService, 'getProductById').resolves({ code: 200, message: products[1] });
       });
-      afterEach(() => {
+      after(() => {
          ProductsService.getProductById.restore();
       });
       it('returns an object', async () => {
@@ -171,7 +171,7 @@ describe('Products Service', () => {
     describe('when it`s a invalid update', () => {
       const request = {};
       const response = {};
-      beforeEach(async () => {
+      before(async () => {
         request.body = {
           quantity: 100,
         };
@@ -181,7 +181,7 @@ describe('Products Service', () => {
         response.json = sinon.stub().returns({ message: invalidItem.message });
         sinon.stub(ProductsService, 'updateProduct').resolves({ code: 400, message: invalidItem.message });
       });
-      afterEach(async () => {
+      after(async () => {
         ProductsService.updateProduct.restore();
       });
       it('returns an object', async () => {
@@ -198,7 +198,7 @@ describe('Products Service', () => {
     describe('when it`s a valid product', () => {
       const request = {};
       const response = {};
-      beforeEach(() => {
+      before(() => {
         request.params = { id: 3 };
         request.body = updatedProduct;
 
@@ -206,7 +206,7 @@ describe('Products Service', () => {
         response.json = sinon.stub().returns(updatedProduct);
         sinon.stub(ProductsService, 'updateProduct').resolves({ code: 200, message: updatedProduct });
       });
-      afterEach(() => {
+      after(() => {
         ProductsService.updateProduct.restore();
       });
       it('returns an object', async () => {
@@ -226,7 +226,7 @@ describe('Products Service', () => {
     describe('when it`s a invalid id to delete', () => {
       const request = {};
       const response = {};
-      beforeEach( () => {
+      before( () => {
         request.params = {
           id: "18"
         };
@@ -234,7 +234,7 @@ describe('Products Service', () => {
         response.json = sinon.stub().returns(notFound.message);
         sinon.stub(ProductsService, 'deleteProduct').resolves(notFound);
       });
-      afterEach( () => {
+      after( () => {
         ProductsService.deleteProduct.restore();
       });
       it('returns an object', async () => {
@@ -251,7 +251,7 @@ describe('Products Service', () => {
     describe('when it`s a valid id to delete', () => {
       const request = {};
       const response = {};
-      beforeEach(() => {
+      before(() => {
         request.params = {
           id: '2',
         };
@@ -260,7 +260,7 @@ describe('Products Service', () => {
         response.json = sinon.stub().returns(products[1]);
         sinon.stub(ProductsService, 'deleteProduct').resolves({code: 200, message: products[1]});
       });
-      afterEach(() => {
+      after(() => {
         ProductsService.deleteProduct.restore();
       });
       it('returns an object', async () => {
