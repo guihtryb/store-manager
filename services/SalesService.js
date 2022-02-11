@@ -61,19 +61,19 @@ const updateSale = async (newInfos, saleId) => {
   return answer(200, updatedSaleAnswer);
 };
 
-// const deleteProduct = async (id) => {
-//   const productSearched = await getProductById(id);
+const deleteSale = async (id) => {
+  const saleSearched = await getSaleById(id);
 
-//   if (productSearched.code === 404) return productSearched;
+  if (saleSearched.code === 404) return saleSearched;
 
-//   await SalesModel.deleteProduct(id);
+  await SalesModel.deleteSale(id);
 
-//   return answer(200, productSearched.message);
-// };
+  return answer(200, saleSearched.message);
+};
 
 module.exports = {
   createSale,
   getSaleById,
   updateSale,
-//   deleteProduct,
+  deleteSale,
 };

@@ -34,20 +34,20 @@ const updateSale = async (req, res) => {
   return res.status(code).json(message);
 };
 
-// const deleteProduct = async (req, res) => {
-//   const { id } = req.params;
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
 
-//   const productId = parseInt(id, 10);
+  const saleId = parseInt(id, 10);
 
-//   const { code, message } = await ProductsService.deleteProduct(productId);
+  const { code, message } = await SalesService.deleteSale(saleId);
 
-//   return res.status(code).json(message);
-// };
+  return res.status(code).json(message);
+};
 
 module.exports = {
   getAllSales,
   getSaleById,
   createSale,
   updateSale,
-//   deleteProduct,
+  deleteSale,
 };
