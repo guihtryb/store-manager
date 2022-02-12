@@ -1,3 +1,4 @@
+const SalesProductsService = require('./SalesProductsService');
 const SalesModel = require('../models/SalesModel');
 const { validSales } = require('../schema/SalesSchema');
 
@@ -20,9 +21,20 @@ const createSale = async (productInfos) => {
   
   if (invalidItem) return answer(invalidItem.code, { message: invalidItem.message });
 
+  const updatedProductQuantities = productInfos.map(
+    async ({ product_id, quantity }) => SalesProductsService
+      .updateProductQuantity(product_id, quantity, 'create'),
+    );
+
+  await Promise.all(updatedProductQuantities);
+
+  const error = await updatedProductQuantities[0];
+
+  if (error) return error;
+
   const insertId = await SalesModel.createSale(productInfos);
 
-    const saleProductAnswer = {
+  const saleProductAnswer = {
     id: insertId,
     itemsSold: productInfos,
   };
@@ -51,6 +63,11 @@ const updateSale = async (newInfos, saleId) => {
 
   if (saleSearched.code === 404) return saleSearched;
 
+  const updatingProductQuantity = await SalesProductsService
+    .verifySaleToUpdate(saleSearched.message, newInfos.product_id, newInfos.quantity);
+
+  if (updatingProductQuantity && updatingProductQuantity.code) return updatingProductQuantity;
+
   await SalesModel.updateSale(newInfos.quantity, saleId, newInfos.product_id);
 
   const updatedSaleAnswer = {
@@ -65,6 +82,12 @@ const deleteSale = async (id) => {
   const saleSearched = await getSaleById(id);
 
   if (saleSearched.code === 404) return saleSearched;
+
+  const updateProductQuantities = saleSearched.message
+    .map(async ({ product_id, quantity }) => SalesProductsService
+    .updateProductQuantity(product_id, quantity, 'delete'));
+
+  await Promise.all(updateProductQuantities);
 
   await SalesModel.deleteSale(id);
 
