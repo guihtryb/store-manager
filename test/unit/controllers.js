@@ -2,10 +2,7 @@ const sinon = require('sinon');
 const { expect } = require('chai');
 
 const ProductsService = require('../../services/ProductsService');
-const { answer } = require('../../schema/ProductsSchema');
 const ProductsController = require('../../controllers/ProductsController');
-const ProductsModel = require('../../models/ProductsModel');
-const { request } = require('express');
 
 const notFound = { code: 404, message: { message: 'product not found' } };
 
