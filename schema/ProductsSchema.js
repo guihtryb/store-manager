@@ -16,16 +16,14 @@ const errors = {
 
 const valueWasNotPassed = (value) => (value === undefined || value === null);
 const valueTypeIncorrect = (value, type) => (typeof value !== typeof type);
-const nameHasNotTheCorrectLength = (name = '', min) => (name.length < min);
+const nameHasNotTheCorrectLength = (name = '', min = 3) => (name.length < min);
 
 const nameIsNotUnique = async (name, id) => {
   const [products] = await getAll();
 
   const alreadyExists = products.find((product) => product.name === name && product.id !== id);
 
-  if (alreadyExists) return true;
-
-  return false;
+   return alreadyExists;
 };
 
 const nameIsNotUniqueFirstCreate = async (name, id) => {
@@ -61,9 +59,7 @@ const validProducts = async (name, quantity, id) => [
 const validProduct = async (name, quantity, id) => {
   const validations = await validProducts(name, quantity, id);
 
-  const invalidItem = validations.find((item) => item.invalid);
-
-  return invalidItem;
+  return validations.find((item) => item.invalid);
 };
 
 const getProductById = async (id) => {
