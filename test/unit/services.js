@@ -263,20 +263,20 @@ describe('Products Service', () => {
         ProductsSchema.getProductById.restore();
       });
       it('returns an object', async () => {
-        const response = await ProductsService.deleteProduct(1);
+        const response = await ProductsService.deleteProduct(4);
         expect(response).to.be.an('object');
       });
 
       it('the object contains a status code and a sucess message', async () => {
-        const response = await ProductsService.deleteProduct(1);
+        const response = await ProductsService.deleteProduct(4);
 
         expect(response).to.have.property('code');
         expect(response.code).to.be.equal(200);
         expect(response).to.have.property('message');
         expect(response.message).to.have.property("id");
-        expect(response.message.id).to.be.equal(1);
+        expect(response.message.id).to.be.equal(4);
         expect(response.message).to.have.property("name");
-        expect(response.message.name).to.be.equal("ProductA");
+        expect(response.message.name).to.be.equal("ProductD");
         expect(response.message).to.have.property("quantity");
         expect(response.message.quantity).to.be.equal(100);
       });
