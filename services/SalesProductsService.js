@@ -10,14 +10,16 @@ const errors = {
 const updateProductQuantity = async (productId, quantity, type) => {
   const { message: product } = await ProductsService.getProductById(productId);
 
-  if (type === 'delete') {
-    await ProductsModel.updateProductQuantity(product.name, quantity);
-  }
-
   if (type === 'create') {
-    if (product.quantity < quantity) return answer(422, { message: errors.amountForbbiden });
+    if (product.quantity < quantity) {
+      return answer(422, { message: errors.amountForbbiden });
+    }
+    if (product.quantity >= quantity) {
       await ProductsModel.updateProductQuantity(product.name, -quantity);
+    }
+    return;
   }
+  await ProductsModel.updateProductQuantity(product.name, quantity);
 };
 
 const verifySaleToUpdate = async (products, productId, quantity) => {
@@ -31,9 +33,7 @@ const verifySaleToUpdate = async (products, productId, quantity) => {
 
   const newQuantity = quantity > currQuantity ? quantity - currQuantity : currQuantity - quantity;
 
-  const update = await updateProductQuantity(productId, newQuantity, type);
-
-  return update;
+  return updateProductQuantity(productId, newQuantity, type);
 };
 
 module.exports = {
