@@ -1,6 +1,7 @@
 const SalesProductsService = require('./SalesProductsService');
 const SalesModel = require('../models/SalesModel');
 const { validSales } = require('../schema/SalesSchema');
+const { answer } = require('../schema/ProductsSchema');
 
 const validSale = (productId, quantity) => {
   const validations = validSales(productId, quantity);
@@ -9,11 +10,6 @@ const validSale = (productId, quantity) => {
 
   return invalidItem;
 };
-
-const answer = (code, message) => ({
-  code,
-  message,
-});
 
 const createSale = async (productInfos) => {
   const [invalidItem] = productInfos

@@ -1,6 +1,5 @@
 const ProductsModel = require('../models/ProductsModel');
 const { answer } = require('../schema/ProductsSchema');
-// const { answer } = require('../schema/ProductsSchema');
 const ProductsService = require('./ProductsService');
 
 const errors = {
