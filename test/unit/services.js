@@ -67,7 +67,6 @@ const validPayload = [
   }
 ];
 
-
 describe('Products Service', () => {
   describe('1. Insert a new product on the database', () => {
     describe('when it`s a invalid product', () => {
@@ -190,11 +189,11 @@ describe('Products Service', () => {
         ProductsSchema.validProduct.restore();
       });
       it('returns an object', async () => {
-        const response = await ProductsService.updateProduct('', 100, 2);
+        const response = await ProductsService.updateProduct('', 200, 2);
         expect(response).to.be.an('object');
       });
       it('the object contains a status code and a error message', async () => {
-        const response = await ProductsService.updateProduct('', 100, 2);
+        const response = await ProductsService.updateProduct('', 200, 2);
 
         expect(response).to.have.property('code');
         expect(response.code).to.be.equal(invalidItem.code);
@@ -204,22 +203,22 @@ describe('Products Service', () => {
     });
     describe('when it`s a valid product', () => {
       before(async () => {
+        sinon.stub(ProductsSchema, 'getProductById').resolves({code: 200, message: products[2]});
         sinon.stub(ProductsSchema, 'validProduct').resolves(null);
         sinon.stub(ProductsModel, 'updateProduct').resolves({ insertId:1 });
-        sinon.stub(ProductsSchema, 'getProductById').resolves({code: 200, message: products[2]});
       });
       after(async () => {
-        ProductsSchema.validProduct.restore();
         ProductsSchema.getProductById.restore();
+        ProductsSchema.validProduct.restore();
         ProductsModel.updateProduct.restore();
       });
       it('returns an object', async () => {
-        const response = await ProductsService.updateProduct('ProductF', 500, 3);
+        const response = await ProductsService.updateProduct('ProductF', 600, 3);
         expect(response).to.be.an('object');
       });
 
       it('the object contains a status code and a sucess message', async () => {
-        const response = await ProductsService.updateProduct('ProductF', 500, 3);
+        const response = await ProductsService.updateProduct('ProductF', 600, 3);
 
         expect(response).to.have.property('code');
         expect(response.code).to.be.equal(200);
@@ -229,7 +228,7 @@ describe('Products Service', () => {
         expect(response.message).to.have.property("name");
         expect(response.message.name).to.be.equal("ProductF");
         expect(response.message).to.have.property("quantity");
-        expect(response.message.quantity).to.be.equal(500);
+        expect(response.message.quantity).to.be.equal(600);
       });
     });
   });
@@ -237,17 +236,16 @@ describe('Products Service', () => {
     describe('when it`s a invalid id to delete', () => {
       before(async () => {
         sinon.stub(ProductsSchema, 'getProductById').resolves({code: 404, message: 'Product not found'});
-        // sinon.stub(ProductsModel, 'deleteProduct').resolves({ insertId: 1 });
       });
       after(async () => {
         ProductsSchema.getProductById.restore();
       });
       it('returns an object', async () => {
-        const response = await ProductsService.deleteProduct(10);
+        const response = await ProductsService.deleteProduct(20);
         expect(response).to.be.an('object');
       });
       it('the object contains a status code and a error message', async () => {
-        const response = await ProductsService.deleteProduct(10);
+        const response = await ProductsService.deleteProduct(20);
 
         expect(response).to.have.property('code');
         expect(response.code).to.be.equal(404);
@@ -349,11 +347,11 @@ describe('Sales Service', () => {
         ProductsModel.getAll.restore();
       });
       it('returns an object', async () => {
-        const response = await ProductsService.getProductById(0)
+        const response = await ProductsService.getProductById(-10)
         expect(response).to.be.an('object');
       });
       it('the object contains a status code and a error message', async () => {
-        const response = await ProductsService.getProductById(0)
+        const response = await ProductsService.getProductById(-10)
 
         expect(response).to.have.property('code');
         expect(response.code).to.be.equal(404);
@@ -369,20 +367,20 @@ describe('Sales Service', () => {
         ProductsModel.getAll.restore();
       });
       it('returns an object', async () => {
-        const response = await ProductsService.getProductById(3)
+        const response = await ProductsService.getProductById(2)
         expect(response).to.be.an('object');
       });
 
       it('the object contains a status code and a sucess message', async () => {
-        const response = await ProductsService.getProductById(3);
+        const response = await ProductsService.getProductById(2);
 
         expect(response).to.have.property('code');
         expect(response.code).to.be.equal(200);
         expect(response).to.have.property('message');
         expect(response.message).to.have.property("id");
-        expect(response.message.id).to.be.equal(3);
+        expect(response.message.id).to.be.equal(2);
         expect(response.message).to.have.property("name");
-        expect(response.message.name).to.be.equal("ProductC");
+        expect(response.message.name).to.be.equal("ProductB");
         expect(response.message).to.have.property("quantity");
         expect(response.message.quantity).to.be.equal(100);
       });
@@ -444,7 +442,6 @@ describe('Sales Service', () => {
     describe('when it`s a invalid id to delete', () => {
       before(async () => {
         sinon.stub(ProductsSchema, 'getProductById').resolves({code: 404, message: 'Product not found'});
-        // sinon.stub(ProductsModel, 'deleteProduct').resolves({ insertId: 1 });
       });
       after(async () => {
         ProductsSchema.getProductById.restore();
