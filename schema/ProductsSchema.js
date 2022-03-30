@@ -30,8 +30,7 @@ const nameIsNotUniqueFirstCreate = async (name, id) => {
   const [products] = await getAll();
 
   if (products.length === 1) {
-    const alreadyExists = products.find((product) => product.name === name && product.id !== id);
-    if (alreadyExists) return true;
+    return products.find((product) => product.name === name && product.id !== id);
   }
   return false;
 };
