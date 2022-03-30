@@ -21,16 +21,15 @@ const nameHasNotTheCorrectLength = (name = '', min = 3) => (name.length < min);
 const nameIsNotUnique = async (name, id) => {
   const [products] = await getAll();
 
-  const alreadyExists = products.find((product) => product.name === name && product.id !== id);
-
-   return alreadyExists;
+  return products.find((product) => product.name === name && product.id !== id);
 };
 
 const nameIsNotUniqueFirstCreate = async (name, id) => {
   const [products] = await getAll();
 
   if (products.length === 1) {
-    return products.find((product) => product.name === name && product.id !== id);
+    const alreadyExists = products.find((product) => product.name === name && product.id !== id);
+    if (alreadyExists) return true;
   }
   return false;
 };
