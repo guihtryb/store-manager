@@ -6,9 +6,7 @@ const { answer } = require('../schema/ProductsSchema');
 const validSale = (productId, quantity) => {
   const validations = validSales(productId, quantity);
 
-  const invalidItem = validations.find((item) => item.invalid);
-
-  return invalidItem;
+  return validations.find((item) => item.invalid);
 };
 
 const createSale = async (productInfos) => {
