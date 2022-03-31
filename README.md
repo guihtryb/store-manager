@@ -17,6 +17,8 @@
 
 - `npm install`
 
+3. Copy the StoreManager.sql file and paste it on your MySQL then execute the file
+
 ### Conection with the database:
 
 ```javascript
