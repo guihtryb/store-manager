@@ -8,17 +8,16 @@
 
 1. Clone the repo
 
-- `git clone https://github.com/tryber/`.
-- Entre na pasta do repositório que você acabou de clonar:
-  - `cd `
+- `git clone git@github.com:guihtryb/store-manager.git`.
 
-2. Install the dependencies [**Caso existam**]
+- Enter in the repository dir that you just clone:
+  - `cd store-manager`
+
+2. Install the dependencies
 
 - `npm install`
 
 ### Conection with the database:
-
-**⚠️ IMPORTANTE! ⚠️**
 
 ```javascript
 const connection = mysql.createPool({
@@ -27,29 +26,27 @@ const connection = mysql.createPool({
   password: process.env.MYSQL_PASSWORD,
 });
 ```
-
-```sh
+Create a .env with the following infos:
+```
 MYSQL_HOST=localhost
-MYSQL_USER=nome
-MYSQL_PASSWORD=1234
+MYSQL_USER=yourMySqlUsername
+MYSQL_PASSWORD=yourMySqlPassword
 PORT=3000
 ```
-
-**Nota**: A variável **PORT** do arquivo `.env` deve ser utilizada para a conexão com o servidor.
-### Tabelas
+### Tables
 
 
-O banco terá três tabelas: `products`, `sales` e `sales_products`.
+The database has three tables: `products`, `sales` and `sales_products`.
 
-A tabela `products` tem o seguinte formato:
+The `products` table has the following format:
 
-![Tabela Produtos](./public/tableproducts.png)
+![Products Table](./public/tableproducts.png)
 
-A tabela `sales` tem o seguinte formato:
+The `sales` table has the following format:
 
-![Tabela Vendas](./public/tablesales.png)
+![Sales Table](./public/tablesales.png)
 
-A tabela `sales_products`, é a tabela que faz o relacionamento `N:N` entre `products` e `sales` e tem o seguinte formato:
+The`sales_products` table, is the one which makes the `N:N` relation between `products` and `sales`, and has the following format:
 
-![Tabela Vendas-Produtos](./public/tablesalesproducts.png)
+![Sales-Products Table](./public/tablesalesproducts.png)
 
