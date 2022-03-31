@@ -17,7 +17,7 @@
 
 - `npm install`
 
-3. Copy the StoreManager.sql file and paste it on your MySQL then execute the file
+3. Copy the StoreManager.sql file content, paste it on your MySQL then execute the file
 
 ### Conection with the database:
 
@@ -51,4 +51,16 @@ The `sales` table has the following format:
 The`sales_products` table, is the one which makes the `N:N` relation between `products` and `sales`, and has the following format:
 
 ![Sales-Products Table](./public/tablesalesproducts.png)
+
+
+### To insert a new product
+### To get all products
+### To update a product
+### To delete a product
+### To register a sale -> The products quantity will be updated
+### To list all sales
+### To update a sale
+### To delete a sale
+
+
 
