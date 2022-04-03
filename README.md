@@ -125,7 +125,7 @@ The`sales_products` table, is the one which makes the `N:N` relation between `pr
 
 ### To register a sale -> The products quantity will be updated
 
-- The sales will be saved in the `sales` and `sales_products` tables of the database;
+- The sales will be saved in the `sales` and `sales_products` tables;
 - It's possible to register the sale of many products in only one requisition;
 - The POST method at the `/sales` endpoint must receive the following structure:
 
