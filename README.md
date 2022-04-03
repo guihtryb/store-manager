@@ -1,6 +1,6 @@
 <h1 align="center"> Welcome to the Store Manager project! </h1>
   
-  This project is an REST API for the management of a store, where is possible create, visualize, delete and update products and sales;
+  This project is a REST API for the management of a store, where is possible create, visualize, delete and update products and sales;
 
 # Skills
 
