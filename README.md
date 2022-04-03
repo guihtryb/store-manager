@@ -1,6 +1,16 @@
-# Welcome to the Store Manager project!
+<h1 align="center"> Welcome to the Store Manager project! </h1>
+  
+  This project is an REST API for the management of a store, where is possible create, visualize, delete and update products and sales;
 
 # Skills
+
+- Model-Service-Controller architecture;
+- Improve maintainability and reusability of the code;
+- REST patterns
+- Connect application with different databases;
+- Node.js;
+- MySQL;
+- Unit tests to all layers;
 
 ---
 
@@ -17,9 +27,9 @@
 
 - `npm install`
 
-3. Copy the StoreManager.sql file content, paste it on your MySQL then execute the file
+3. Copy the StoreManager.sql file content, paste it on your MySQL Workbench then execute the file;
 
-### Conection with the database:
+### Connection with the database:
 
 ```javascript
 const connection = mysql.createPool({
@@ -54,13 +64,138 @@ The`sales_products` table, is the one which makes the `N:N` relation between `pr
 
 
 ### To insert a new product
+
+- The POST /products endpoint must receive the following structure:
+
+```json
+{
+  "name": "product_name",
+  "quantity": "product_quantity"
+}
+```
+
 ### To get all products
+
+- Use the GET method at the /products endpoint
+- The API will answer with the `200` http status code and a body in the following structure:
+
+```json
+    [
+      {
+        "id": 1,
+        "name": "produto A",
+        "quantity": 10
+      },
+      {
+        "id": 2,
+        "name": "produto B",
+        "quantity": 20
+      }
+    ]
+  ```
+
+### To get a product by it's id
+
+- Use the GET method at the /products/:id endpoint, passing the id number of the product registered;
+- The API will answer with the `200` http status code and a body in the following structure:
+
+```json
+      {
+        "id": 1,
+        "name": "produto A",
+        "quantity": 10
+      }
+  ```
+
+
 ### To update a product
+
+- Use the PUT method at the /product/:id endpoint with the following structure:
+
+```json
+
+{
+  "name": "product_name",
+  "quantity": "product_quantity"
+}
+```
+
 ### To delete a product
+
+- Use the DELETE method at the /products/:id endpoint and the product will be deleted
+
 ### To register a sale -> The products quantity will be updated
+
+- The sales will be saved in the `sales` and `sales_products` tables of the database;
+- It's possible to register the sale of many products in only one requisition;
+- The POST method at the `/sales` endpoint must receive the following structure:
+
+```json
+[
+  {
+    "product_id": "product_id",
+    "quantity": "product_quantity",
+  }
+]
+```
+
 ### To list all sales
+
+- To get all sales you can use the GET `/sales` endpoint, and the API will answer with a 200 http status code and a body in the following structure:
+
+```json
+    [
+      {
+        "saleId": 1,
+        "date": "2021-09-09T04:54:29.000Z",
+        "product_id": 1,
+        "quantity": 2
+      },
+      {
+        "saleId": 1,
+        "date": "2021-09-09T04:54:54.000Z",
+        "product_id": 2,
+        "quantity": 2
+      }
+    ]
+  ```
+  
+### To get a sale by it's id
+
+- To get a sale by it's id you can use the GET /sales/:id endpoint, and the API will return a body in the following structure:
+
+    ```json
+      [
+        { 
+          "date": "2021-09-09T04:54:29.000Z",
+          "product_id": 1,
+          "quantity": 2
+        },
+        {
+          "date": "2021-09-09T04:54:54.000Z",
+          "product_id": 2,
+          "quantity": 2
+        }
+      ]
+    ```
+
 ### To update a sale
+
+- You can update a sale using the PUT `sales/:id` endpoint;
+- The body requisition must receive the following structure:
+
+```json
+[
+  {
+    "product_id": "id_change",
+    "quantity": "new_quantity"
+  }
+]
+```
+
 ### To delete a sale
+
+- You can delete a sale using the DELETE `/sales/:id` endpoint;
 
 
 
