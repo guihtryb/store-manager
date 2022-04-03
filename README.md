@@ -5,8 +5,7 @@
 # Skills
 
 - Model-Service-Controller architecture;
-- Improve maintainability and reusability of the code;
-- REST patterns
+- REST API;
 - Connect application with different databases;
 - Node.js;
 - MySQL;
