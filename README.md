@@ -5,10 +5,12 @@
 # Skills
 
 - Model-Service-Controller architecture;
-- REST API;
+- Apply REST API patterns
+- Write signatures for intuitive and easily understandable APIs.
 - Connect application with different databases;
 - Node.js;
 - MySQL;
+- Ensuring code maintenance and reuse;
 - Unit tests to all layers;
 
 ---
